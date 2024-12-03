@@ -217,5 +217,11 @@ namespace Eto.Wpf.Forms.Controls
 		public float MinimumZoom { get { return 1f; } set { } }
 
 		public float Zoom { get { return 1f; } set { } }
+
+		public override void OnChildPreferredSizeUpdated()
+		{
+			base.OnChildPreferredSizeUpdated();
+			UpdateScrollSizes();
+		}
 	}
 }
