@@ -306,7 +306,11 @@ namespace Eto.Mac.Forms.Controls
 				{
 					Control.HorizontallyResizable = true;
 					Control.TextContainer.WidthTracksTextView = false;
-					Control.TextContainer.ContainerSize = new CGSize(float.MaxValue, float.MaxValue);
+					
+					// anything greater then selection isn't shown when alignment isn't Left
+					// even though the default size is 10000000, setting it to that doesn't work.
+					// must be some weird magic going on behind the scenes..
+					Control.TextContainer.Size = new CGSize(9999999, float.MaxValue); 
 				}
 			}
 		}
