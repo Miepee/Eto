@@ -25,7 +25,7 @@
     <OutputType Condition="$(OutputType) == 'Exe' and ($(BuildPlatform) == 'Wpf' or $(BuildPlatform) == 'Windows')">WinExe</OutputType>
     
     <!-- Need to set this with the macos target if not specified -->
-    <SupportedOSPlatformVersion Condition="$(SupportedOSPlatformVersion) == '' AND ( $(BuildPlatform) == 'macos' )">10.14</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(SupportedOSPlatformVersion) == '' AND ( $(BuildPlatform) == 'macos' )">10.15</SupportedOSPlatformVersion>
     <RuntimeIdentifiers Condition="$(BuildPlatform) == 'macos' AND $(RuntimeIdentifiers) == '' AND $(RuntimeIdentifier) == ''">osx-x64;osx-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
