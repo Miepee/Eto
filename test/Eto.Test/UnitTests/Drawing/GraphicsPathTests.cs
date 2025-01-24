@@ -34,5 +34,59 @@ namespace Eto.Test.UnitTests.Drawing
 			Assert.That(path.StrokeContains(pen, new PointF(10, 1)), Is.True, "#1.3");
 			Assert.That(path.StrokeContains(pen, new PointF(10, 10)), Is.True, "#1.4");
 		}
+		
+		[Test]
+		public void GraphicsPathShouldFillAlternateCorrectly()
+		{
+			var bmp = new Bitmap(100, 100, PixelFormat.Format32bppRgba);
+			using (var g = new Graphics(bmp))
+			{
+				using var maskingPath = new GraphicsPath();
+
+				maskingPath.AddRectangle(20, 20, 90, 90);
+
+				maskingPath.AddRectangle(40, 40, 80, 10);
+				maskingPath.FillMode = FillMode.Alternate;
+
+				g.FillPath(Colors.Blue, maskingPath);
+			}
+			
+			// bmp.Save(Path.Combine(EtoEnvironment.GetFolderPath(EtoSpecialFolder.Downloads), "test.png"), ImageFormat.Png);
+			
+			using (var bd = bmp.Lock())
+			{
+				Assert.That(bd.GetPixel(20, 20), Is.EqualTo(Colors.Blue), "#1.1");
+				Assert.That(bd.GetPixel(40, 40), Is.EqualTo(Colors.Transparent), "#1.2");
+				Assert.That(bd.GetPixel(50, 50), Is.EqualTo(Colors.Blue), "#1.3");
+				Assert.That(bd.GetPixel(19, 19), Is.EqualTo(Colors.Transparent), "#1.4");
+			}
+		}
+ 
+ 		[Test]
+		public void GraphicsPathShouldFillWindingCorrectly()
+		{
+			var bmp = new Bitmap(100, 100, PixelFormat.Format32bppRgba);
+			using (var g = new Graphics(bmp))
+			{
+				using var maskingPath = new GraphicsPath();
+
+				maskingPath.AddRectangle(20, 20, 90, 90);
+
+				maskingPath.AddRectangle(40, 40, 80, 10);
+				maskingPath.FillMode = FillMode.Winding;
+
+				g.FillPath(Colors.Blue, maskingPath);
+			}
+			
+			// bmp.Save(Path.Combine(EtoEnvironment.GetFolderPath(EtoSpecialFolder.Downloads), "test.png"), ImageFormat.Png);
+			
+			using (var bd = bmp.Lock())
+			{
+				Assert.That(bd.GetPixel(20, 20), Is.EqualTo(Colors.Blue), "#1.1");
+				Assert.That(bd.GetPixel(40, 40), Is.EqualTo(Colors.Blue), "#1.2");
+				Assert.That(bd.GetPixel(50, 50), Is.EqualTo(Colors.Blue), "#1.3");
+				Assert.That(bd.GetPixel(19, 19), Is.EqualTo(Colors.Transparent), "#1.4");
+			}
+		}
     }
 }
