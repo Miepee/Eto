@@ -61,6 +61,7 @@ namespace Eto.Test.UnitTests
     public class EtoTestSetup
     {
 		static bool _quit;
+		static bool _appWasCreated;
 		
 		/// <summary>
 		/// Timeout for application initialization
@@ -157,6 +158,8 @@ namespace Eto.Test.UnitTests
 					thread.Start();
 					if (!ev.WaitOne(ApplicationTimeout))
 						Assert.Fail("Could not initialize application");
+
+					_appWasCreated = true;
 					if (exception != null)
 						ExceptionDispatchInfo.Capture(exception).Throw();
 				}
@@ -173,6 +176,8 @@ namespace Eto.Test.UnitTests
         public void GlobalTeardown()
         {
 			_quit = true;
+			if (!_appWasCreated)
+				return;
 			Application.Instance?.AsyncInvoke(() =>
 			{
 				Application.Instance?.Quit();
