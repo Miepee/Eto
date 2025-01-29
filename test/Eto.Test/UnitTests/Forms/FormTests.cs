@@ -51,7 +51,7 @@ public class FormTests : WindowTests<Form>
 	}
 
 	[Test, ManualTest]
-	public void MultipleChildWindowsShouldGetFocusWhenClicked() => Async(async () =>
+	public void MultipleChildWindowsShouldGetFocusWhenClicked() => Async(-1, async () =>
 	{
 		var form1 = new Form { ClientSize = new Size(200, 200), Location = new Point(300, 300) };
 		form1.Owner = Application.Instance.MainForm;
@@ -116,7 +116,7 @@ public class FormTests : WindowTests<Form>
 	[TestCase(true)]
 	[TestCase(false)]
 	[ManualTest]
-	public void CallingShowTwiceShouldWork(bool showActivated) => Async(async () =>
+	public void CallingShowTwiceShouldWork(bool showActivated) => Async(-1, async () =>
 	{
 		var form = new Form();
 
@@ -142,7 +142,7 @@ public class FormTests : WindowTests<Form>
 
 	[Test]
 	[ManualTest]
-	public void CallingShowAfterShownShouldNotBringItTopMost() => Async(async () =>
+	public void CallingShowAfterShownShouldNotBringItTopMost() => Async(-1, async () =>
 	{
 		var form = new Form();
 
