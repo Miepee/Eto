@@ -165,4 +165,52 @@ public class FormTests : WindowTests<Form>
 
 		await tcs.Task;
 	});
+	
+	class MyModel
+	{
+		public int IntValue { get; set; }
+	}
+	
+	[Test]
+	public void HiddenFormShouldNotShowWhenSettingOwner() => Async(async () => {
+		var child = new Form();
+		var parent = new Form();
+		try
+		{
+			child.Content = "This form should only show briefly";
+			child.Size = new Size(200, 200);
+			child.Location = new Point(100, 100);
+			child.Show();
+			child.Visible = false;
+
+			parent.Content = "This form should show";
+			parent.Size = new Size(200, 200);
+			parent.Location = new Point(400, 400);
+			parent.Show();
+			await Task.Delay(250);
+			child.Owner = parent;
+			await Task.Delay(250);
+			
+			Assert.That(child.Visible, Is.False, "Child should not be visible");
+			Assert.That(parent.Visible, Is.True, "Parent should be visible");
+			
+			// Set visible and test
+			child.Visible = true;
+			await Task.Delay(250);
+			Assert.That(child.Visible, Is.True, "Child should be visible");
+			Assert.That(parent.Visible, Is.True, "Parent should be visible");
+			
+			// Hide again
+			child.Visible = false;
+			await Task.Delay(250);
+
+			Assert.That(child.Visible, Is.False, "Child should not be visible");
+			Assert.That(parent.Visible, Is.True, "Parent should be visible");
+		}
+		finally
+		{
+			child.Close();
+			parent.Close();
+		}
+	});
 }
