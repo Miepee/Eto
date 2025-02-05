@@ -15,6 +15,7 @@ namespace Eto.Mac.Forms
 				var name = value;
 				if (!string.IsNullOrEmpty(name))
 				{
+					SetAllowedFileTypes();
 					var dir = Path.GetDirectoryName(name);
 					if (!string.IsNullOrEmpty(dir) && System.IO.Directory.Exists(dir))
 						Directory = new Uri(dir);
@@ -25,8 +26,6 @@ namespace Eto.Mac.Forms
 			}
 		}
 
-		protected override bool DisposeControl { get { return false; } }
-
 		protected override NSSavePanel CreateControl()
 		{
 			return NSSavePanel.SavePanel;
@@ -34,6 +33,7 @@ namespace Eto.Mac.Forms
 
 		protected override void Initialize()
 		{
+			Control.ExtensionHidden = false;
 			Control.AllowsOtherFileTypes = true;
 			Control.CanSelectHiddenExtension = true;
 			base.Initialize();
@@ -49,6 +49,18 @@ namespace Eto.Mac.Forms
 			}
 
 			return result;
+		}
+
+		protected override void OnFileTypeChanged()
+		{
+			base.OnFileTypeChanged();
+			var extension = Widget.CurrentFilter?.Extensions?.FirstOrDefault()?.TrimStart('*', '.');
+			if (!string.IsNullOrEmpty(extension))
+			{
+				var fileName = Control.NameFieldStringValue;
+				if (fileName != null)
+					Control.NameFieldStringValue = $"{Path.GetFileNameWithoutExtension(fileName)}.{extension}";
+			}			
 		}
 	}
 }
