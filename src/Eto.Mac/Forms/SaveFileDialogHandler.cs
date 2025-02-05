@@ -41,11 +41,11 @@ namespace Eto.Mac.Forms
 
 		public override DialogResult ShowDialog(Window parent)
 		{
+			hasShown = true;
 			var result = base.ShowDialog(parent);
 			if (result == DialogResult.Ok)
 			{
 				selectedFileName = null;
-				hasShown = true;
 			}
 
 			return result;
@@ -54,12 +54,30 @@ namespace Eto.Mac.Forms
 		protected override void OnFileTypeChanged()
 		{
 			base.OnFileTypeChanged();
-			var extension = Widget.CurrentFilter?.Extensions?.FirstOrDefault()?.TrimStart('*', '.');
-			if (!string.IsNullOrEmpty(extension))
+			var extensions = Widget.CurrentFilter?.Extensions;
+			if (extensions == null)
+				return;
+
+			var currentExtension = Path.GetExtension(Control.NameFieldStringValue);
+
+			// If the new file type supports the extension, don't change it
+			if (extensions.Select(r => r.TrimStart('*')).Any(r => r == currentExtension))
+			{
+				if (!hasShown)
+				{
+					// need to reset the value, otherwise for unknown file types it doubles up the extension
+					var name = Control.NameFieldStringValue;
+					Control.NameFieldStringValue = string.Empty;
+					Control.NameFieldStringValue = name;
+				}
+				return;
+			}
+			var newExtension = extensions.FirstOrDefault()?.TrimStart('*', '.');
+			if (!string.IsNullOrEmpty(newExtension))
 			{
 				var fileName = Control.NameFieldStringValue;
 				if (fileName != null)
-					Control.NameFieldStringValue = $"{Path.GetFileNameWithoutExtension(fileName)}.{extension}";
+					Control.NameFieldStringValue = $"{Path.GetFileNameWithoutExtension(fileName)}.{newExtension}";
 			}			
 		}
 	}
