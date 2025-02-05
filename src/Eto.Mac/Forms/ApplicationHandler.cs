@@ -119,7 +119,7 @@ namespace Eto.Mac.Forms
 				string.Empty,
 				NSBundle.MainBundle.BundlePath
 			};
-			NSTask.LaunchFromPath("/bin/sh", args);
+			NSTask.LaunchFromUrl(NSUrl.FromFilename("/bin/sh"), args, out var error, null);
 		}
 
 		public void Invoke(Action action)

@@ -48,21 +48,12 @@ namespace Eto.Mac.Forms.Cells
 
 		public class EtoButton : NSButton
 		{
-			public event EventHandler Focussed;
-
 			public EtoButton()
 			{
 			}
 			public EtoButton(IntPtr handle)
 				: base(handle)
 			{
-			}
-
-			public override void LockFocus()
-			{
-				base.LockFocus();
-				if (Focussed != null)
-					Focussed(this, EventArgs.Empty);
 			}
 		}
 
