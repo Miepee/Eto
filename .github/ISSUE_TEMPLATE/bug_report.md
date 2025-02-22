@@ -18,21 +18,26 @@ Steps to reproduce the behavior:
 4. See error
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+<!-- A clear and concise description of what you expected to happen. -->
+
+**Actual behavior**
+<!-- A clear and concise description of what happened instead. -->
+
+##Code that Demonstrates the Problem
+<!-- Supplying code that demonstrates the problem expedites a fix (and a response)! -->
+
+```
+[Paste your code here]
+```
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+<!-- If applicable, add screenshots to help explain your problem. -->
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
+**Specifications**
+<!-- Please specify the version of Eto and all platforms this can be reproduced in -->
+  - Eto Version: <!-- 2.9.0, etc -->
+  - Platform(s): <!-- WPF, WinForms, Gtk, Mac64, macOS, etc -->
+  - Operating System(s): <!-- E.g. Windows 10/11, macOS 11, Ubuntu 18.04, etc -->
+ 
 **Additional context**
-Add any other context about the problem here.
+<!-- Add any other context about the problem here. -->
